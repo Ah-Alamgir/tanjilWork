@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "632459785977",
+    "firebase_url": "https://mywork-40cbf-default-rtdb.firebaseio.com",
+    "project_id": "mywork-40cbf",
+    "storage_bucket": "mywork-40cbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632459785977:android:a47b27a2557c35efd65428",
+        "android_client_info": {
+          "package_name": "com.hanif.mywork"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBWKrNoAESBZWgjs1YfNbzaztF2TDMg0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632459785977:android:cdc1b66a8bc2bd42d65428",
+        "android_client_info": {
+          "package_name": "com.tanjil.mywork"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBWKrNoAESBZWgjs1YfNbzaztF2TDMg0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
