@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -26,6 +27,7 @@ class PhoneSignup(val activity: Activity) {
     val TAG = "luckey"
 
     private var storedVerificationId: String? = ""
+    var phoneNumber: String = ""
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     val isSend= MutableLiveData<Boolean>()
@@ -36,7 +38,7 @@ class PhoneSignup(val activity: Activity) {
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-
+                print("Success")
                 activity.startActivity(Intent(activity, ProfileScene::class.java))
             }
 
@@ -71,7 +73,7 @@ class PhoneSignup(val activity: Activity) {
         // [END phone_auth_callbacks]
     }
 
-     fun startPhoneNumberVerification(phoneNumber: String) {
+     fun startPhoneNumberVerification() {
         // [START start_phone_auth]
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber) // Phone number to verify
@@ -88,13 +90,12 @@ class PhoneSignup(val activity: Activity) {
      fun verifyPhoneNumberWithCode( code: String) {
         // [START verify_with_code]
         val credential = PhoneAuthProvider.getCredential(storedVerificationId!!, code)
+         print(credential)
         // [END verify_with_code]
     }
 
     // [START resend_verification]
-     fun resendVerificationCode(
-        phoneNumber: String,
-    ) {
+     fun resendVerificationCode() {
         val optionsBuilder = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit

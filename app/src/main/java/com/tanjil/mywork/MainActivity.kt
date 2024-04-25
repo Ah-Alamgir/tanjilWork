@@ -1,5 +1,6 @@
 package com.tanjil.mywork
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.tanjil.mywork.ui.Scenes.HomeScene
 import com.tanjil.mywork.ui.Scenes.ProfessionList
+import com.tanjil.mywork.ui.Scenes.SelectAddress
 import com.tanjil.mywork.ui.Scenes.pickAddress
 
 import com.tanjil.mywork.ui.theme.MyWorkTheme
@@ -26,8 +28,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    pickAddress()
-
+                    setContent {
+                        HomeScene()
+                    }
                 }
             }
         }

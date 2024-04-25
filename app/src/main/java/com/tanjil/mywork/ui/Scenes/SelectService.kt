@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.ScrollableDefaults
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,10 +19,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -80,14 +84,12 @@ fun uiLogic() {
         "উকিল", "মাঝি",
     )
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
-            text = "Select your desire service",
+            text = "সেবা সিলেক্ট করুন",
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(top = 10.dp)
         )
-
-        Spacer(modifier = Modifier.fillMaxHeight(.01f))
         SearchBar(
             query = queryText,
             onQueryChange = {
@@ -96,11 +98,11 @@ fun uiLogic() {
             onSearch = {
 
             },
+
             active = expanded,
             onActiveChange = { expanded = it },
-            modifier = Modifier
-                .padding(10.dp),
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null) },
+
             trailingIcon = {
                 if (expanded) {
                     Icon(imageVector = Icons.Default.Close, contentDescription = null,
@@ -108,15 +110,18 @@ fun uiLogic() {
                             queryText= ""})
                 }
 
-            }
+            },
+            modifier = Modifier.padding(horizontal = 10.dp)
 
         ) {
             filteredProfessions.forEach {
                 TextButton(onClick = { queryText = it
-                expanded = false}) {
+                    expanded = false}) {
                     Text(text = it)
                 }
             }
+
+
 
         }
 
@@ -159,8 +164,6 @@ fun uiLogic() {
             }
 
         }
-
-        Spacer(modifier = Modifier.height(10.dp))
 
 
     }

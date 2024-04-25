@@ -68,7 +68,7 @@ fun HomeScene() {
                     .height(150.dp)
                     .weight(1f)
                     .padding(end = 12.dp, start = 4.dp)
-                    .clickable { context.startActivity(Intent(context, SignupScene::class.java)) }
+                    .clickable { context.startActivity(Intent(context, SelectAddress::class.java)) }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -85,6 +85,9 @@ fun HomeScene() {
 
         }
     }
+
+
+
 }
 
 
