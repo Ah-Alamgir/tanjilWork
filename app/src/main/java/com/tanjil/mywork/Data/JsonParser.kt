@@ -1,4 +1,4 @@
-package com.tanjil.mywork.Remote
+package com.tanjil.mywork.Data
 
 class jsonParser {
     companion object{

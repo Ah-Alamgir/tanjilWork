@@ -1,24 +1,18 @@
 package com.tanjil.mywork
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.tanjil.mywork.ui.Scenes.HomeScene
-import com.tanjil.mywork.ui.Scenes.ProfessionList
-import com.tanjil.mywork.ui.Scenes.SelectAddress
-import com.tanjil.mywork.ui.Scenes.pickAddress
 
 import com.tanjil.mywork.ui.theme.MyWorkTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,26 +25,11 @@ class MainActivity : ComponentActivity() {
                     setContent {
                         HomeScene()
                     }
+
                 }
             }
         }
     }
 
 
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyWorkTheme {
-        Greeting("Android")
-    }
 }
