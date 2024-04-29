@@ -1,11 +1,6 @@
 package com.tanjil.mywork.ui.Scenes
 
-import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.Image
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,67 +8,40 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.ViewModel
-import com.tanjil.mywork.R
+import androidx.navigation.NavHostController
+import com.hanif.mywork.Remote.getFirebaseData.Companion.phoneAuth
 import com.tanjil.mywork.Utils.PhoneSignup
-
-
-class SignupScene : ComponentActivity() {
-    val signAuth = PhoneSignup(this)
-    var bottomAppbarState = mutableStateOf(false)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            sceneSignup(signAuth)
-            signAuth.startPhoneAuth()
-            signAuth.isSend.observe(this){
-                if (it){
-                    bottomAppbarState.value=true
-                }
-            }
-            if (bottomAppbarState.value){
-                bottomBar(signAuths = signAuth)
-            }
-        }
-
-
-
-    }
-}
+import com.tanjil.mywork.Utils.Screen
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun sceneSignup(signAuth: PhoneSignup) {
+fun sceneSignup(navigation: NavHostController) {
 
+    val context = LocalContext.current
+    var activityPass = context as? Activity
 
     var nameText by remember {
         mutableStateOf("")
@@ -83,8 +51,20 @@ fun sceneSignup(signAuth: PhoneSignup) {
         mutableStateOf("+880")
     }
 
-    var bottomAppbar by remember {
+    var dialogueText by remember {
+        mutableStateOf("+880")
+    }
+    var isShowDialogue by remember {
         mutableStateOf(false)
+    }
+    var isShowProgress by remember {
+        mutableStateOf(false)
+    }
+
+
+    val scope = rememberCoroutineScope()
+    if (activityPass != null) {
+        phoneAuth.activity = activityPass
     }
 
 
@@ -92,101 +72,107 @@ fun sceneSignup(signAuth: PhoneSignup) {
     Column(
         Modifier.fillMaxWidth(1f),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-        
-    ) {
-        Spacer(modifier = Modifier.size(10.dp))
-        Image(painter = painterResource(id = R.mipmap.log), contentDescription = null,
-            modifier = Modifier
-                .size(150.dp)
-                .clip(
-                    CircleShape
-                ))
 
-        OutlinedTextField(
-            value = nameText,
-            onValueChange = {
-                nameText = it
-            },
-            Modifier.fillMaxWidth(.8f),
-            placeholder = { Text(text = "আপনার নাম লিখুন") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle, contentDescription = null
+        ) {
+
+        if (isShowProgress){
+            CircularProgressIndicator(modifier = Modifier.padding(10.dp))
+        }
+        Spacer(modifier = Modifier.size(30.dp))
+
+        Text(
+            text = "রেজিস্ট্রেশন করুন",
+            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+
+        Card(
+            Modifier
+                .padding(20.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "আপনার তথ্য সুরক্ষিত",
+                color = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier.padding(start = 30.dp, top = 20.dp, bottom = 5.dp)
+            )
+            OutlinedTextField(
+                value = nameText,
+                onValueChange = {
+                    nameText = it
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                placeholder = { Text(text = "আপনার নাম লিখুন") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.AccountCircle, contentDescription = null
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+
                 )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            Spacer(modifier = Modifier.height(10.dp))
 
+            OutlinedTextField(
+                value = phoneText,
+                onValueChange = {
+                    phoneText = it
+                },
+                placeholder = { Text(text = "আপনার নাম্বার লিখুন") },
+                leadingIcon = { Icon(imageVector = Icons.Default.Call, contentDescription = null) },
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
             )
 
-        OutlinedTextField(
-            value = phoneText,
-            onValueChange = {
-                phoneText = it
-            },
-            placeholder = { Text(text = "আপনার নাম্বার লিখুন") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Call, contentDescription = null) },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth(.8f),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
-        )
 
-        ElevatedButton(onClick = {
-            if (phoneText.length == 14) {
-                signAuth.phoneNumber = phoneText
-                signAuth.startPhoneNumberVerification()
-            }else{
+
+            ElevatedButton(
+                onClick = {
+                    if (phoneText.length < 14) {
+                        dialogueText = "+880 যুক্ত করে ১৪ সংখ্যার ফোন নাম্বার নিশ্চিত করুন "
+                        isShowDialogue = true
+
+                    } else if (phoneText.length==14) {
+                        phoneAuth.phoneNumber = phoneText
+                        scope.launch {
+                            isShowProgress = true
+                            phoneAuth.startPhoneNumberVerification().collect {
+                                when (it.isSuccess) {
+                                    true -> { navigation.navigate(Screen.otpScene.rout) }
+
+                                    false -> {
+                                        dialogueText = it.toString()
+                                        isShowDialogue = true
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (nameText.length<4){
+                        isShowDialogue = true
+                        dialogueText = "আপনার নাম লিখুন"
+                    }
+
+                },
+                Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+            ) {
+                Text(text = "কোড পাঠান ")
+
             }
-        }) {
-            Text(text = "Get Code")
+            
+            if (isShowDialogue){
+                isShowDialogue = alartDialogue(content = dialogueText)
+            }
+
 
         }
 
-    }
-}
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun bottomBar(signAuths:PhoneSignup) {
-    var gotcode by remember {
-        mutableStateOf("")
     }
 
-    ModalBottomSheet(onDismissRequest = {
-
-    }) {
-        OutlinedTextField(
-            value = gotcode,
-            onValueChange = {
-                gotcode = it
-            },
-            placeholder = { Text(text = "কোডটি লিখুন ") },
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth(.8f),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        TextButton(
-            onClick = { signAuths.resendVerificationCode() },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text(text = "Resend Code?")
-        }
-        ElevatedButton(
-            onClick = {
-                signAuths.verifyPhoneNumberWithCode(gotcode) },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Submit Code")
-        }
-        Spacer(modifier = Modifier.height(80.dp))
-    }
 
 }
-
-

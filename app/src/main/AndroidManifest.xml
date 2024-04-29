@@ -31,11 +31,7 @@
         </activity>
 
 
-        <activity android:name=".ui.Scenes.SelectService" />
         <activity android:name=".ui.Scenes.ProfessionList" />
-        <activity android:name=".ui.Scenes.ProfileScene" />
-        <activity android:name=".ui.Scenes.SignupScene"/>
-        <activity android:name=".ui.Scenes.SelectAddress"/>
     </application>
 
 </manifest>
